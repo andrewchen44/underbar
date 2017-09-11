@@ -249,6 +249,7 @@ return newArray;
 
 //in case that there is no iterator
 if(iterator !== undefined){
+
 _.reduce(collection, function(passedTest, item){
   if(!!iterator(item) === true){
   } else {
@@ -277,9 +278,58 @@ return pass;
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    // TIP: There's a very clever way to re-use every() here.
+    //if the entire collections fails the tests return false
+    //need to return true if any item passes the testr
+    //need to return false if all fail the test
+
+    //if there is no iterator
+  if(iterator !== undefined){
+
+    if (_.every(collection, iterator) === true){
+      //if it did pass every test
+
+      return true;
+
+    } else {
+      var pass = false;
+        for( var i = 0; i < collection.length; i++){
+           if(iterator(collection[i]) === true || iterator(collection[i]) === 'yes'){
+             pass = true;
+           }
+        }
+
+
+   return pass;   
+
+    }
+ 
+ } else {
+    var some = false;
+    for(var i = 0; i < collection.length; i++){
+      if(collection[i] == true){
+        some = true;
+      }
+    }
+    return some;
+  }
+
   };
 
+
+ _.each = function(collection, iterator) {
+    if(Array.isArray(collection) === true){
+
+for(var i = 0; i < collection.length; i++){
+  iterator(collection[i], i, collection);
+} 
+} else if(typeof collection === 'object'){
+  for (var e in collection){
+    iterator(collection[e], e, collection);
+  }
+  }
+    
+
+  };
 
   /**
    * OBJECTS
