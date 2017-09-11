@@ -350,12 +350,31 @@ for(var i = 0; i < collection.length; i++){
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-  };
+   for(var i = 1; i < arguments.length; i++){
+        for(var key in arguments[i]){
+            if(arguments[i].hasOwnProperty(key))
+                arguments[0][key] = arguments[i][key];
+        }
+   }
+    return arguments[0];
+}
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
+  
   _.defaults = function(obj) {
-  };
+     for(var i = 1; i < arguments.length; i++){ //goes through all arguements 
+        for(var key in arguments[i]){  //goes through all properties in the arguements
+            if(arguments[i].hasOwnProperty(key) && (arguments[0].hasOwnProperty(key) === false)){
+                arguments[0][key] = arguments[i][key];
+             } else if(arguments[i].hasOwnProperty(key) && arguments[0].hasOwnProperty(key) === true){
+               arguments[0][key] = arguments[0][key];
+               }
+  }
+    
+  }
+return arguments[0];
+}
 
 
   /**
