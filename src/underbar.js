@@ -196,7 +196,11 @@ return newArray;
         
         accumulated = iterator(accumulated, collection[i]);
       }
+    } else if (collection.length === 1) {
+
+      accumulated = iterator(false, collection[0]);
     } else {
+      
       accumulated = iterator(collection[0], collection[1]);
         for(var i = 2; i < collection.length; i++){
         accumulated = iterator(accumulated, collection[i]);
@@ -214,19 +218,61 @@ return newArray;
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
+  if(Array.isArray(collection) === true){
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
       }
       return item === target;
     }, false);
+  } else {
+    var contain = false;
+    for(var key in collection){
+      if(collection[key] === target){
+        contain = true;
+      }
+    }
+    return contain;
+  }
   };
 
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+
+//in case collection is empty
+ if(collection.length < 1){
+   return true;
+ } else{
+
+   var pass = true;
+
+//in case that there is no iterator
+if(iterator !== undefined){
+_.reduce(collection, function(passedTest, item){
+  if(!!iterator(item) === true){
+  } else {
+  pass = false;
+  }
+});
+
+} else {
+  for(var i = 0; i < collection.length; i++){
+    if(collection[i] === false){
+      pass = false;
+    }
+  }
+}
+
+
+ 
+ };
+
+return pass;
+   
   };
+
+  // _.reduce = function(collection, iterator, accumulator)
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
