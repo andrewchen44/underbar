@@ -387,23 +387,23 @@ return arguments[0];
 
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
-  _.once = function(func) {
-    // TIP: These variables are stored in a "closure scope" (worth researching),
+   // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
     // time it's called.
+        // TIP: We'll return a new function that delegates to the old one, but only
+    // if it hasn't been called before.
+            // TIP: .apply(this, arguments) is the standard way to pass on all of the
+        // infromation from one function call to another.
+              // The new function always returns the originally computed result.
+
+  _.once = function(func) {
     var alreadyCalled = false;
     var result;
-
-    // TIP: We'll return a new function that delegates to the old one, but only
-    // if it hasn't been called before.
     return function() {
       if (!alreadyCalled) {
-        // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
-      // The new function always returns the originally computed result.
       return result;
     };
   };
@@ -417,7 +417,33 @@ return arguments[0];
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var cache = {} ;
+    var alreadyCalled = false;
+    var result;
+      return function(){
+        var key = JSON.stringify(arguments);
+          if(cache[key]){
+            return cache[key];
+          }
+    
+        else {
+        result = func.apply(this, arguments);
+        cache[key] = result;
+        alreadyCalled = true;
+        }
+      return result;
+      };
   };
+
+//a function will be called once
+//if it is called a second time, a function will check if it has already been called once
+//if it has been called once, it will return the previous value(value of 'results' in _.once)without performing the function again
+
+
+//go through each arguements
+//if the argument has not already had the function run, return the result of a function being run on the arguements
+//if is is already run, it will return the previously calculated value
+//
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -425,7 +451,10 @@ return arguments[0];
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
+  _.delay = function(func, wait, a, b){
+
+return setTimeout(func, wait, a, b);
+
   };
 
 
