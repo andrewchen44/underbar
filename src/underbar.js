@@ -469,6 +469,19 @@ return setTimeout(func, wait, a, b);
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+
+var newArray = [];
+    for (var i = array.length - 1; i > 0; i--) {
+        var randomValue = Math.floor(Math.random(0, array.length-1) * (i + 1));
+        if(randomValue > array.length-1){
+          i--;
+        }
+        var temp = array[i];
+        newArray[i] = array[randomValue];
+        newArray[randomValue] = temp;
+    }
+    return newArray;
+
   };
 
 
